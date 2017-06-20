@@ -116,7 +116,7 @@ public class Recycler_Adapter extends CursorRecyclerAdapter<Recycler_Adapter.Vie
         //holder.vImg.setImageURI(Uri.parse(cursor.getString(3)));
         Glide.with(rContext)
                 .load(Uri.parse(cursor.getString(3)))
-                .placeholder(R.drawable.pic01)
+                .placeholder(R.drawable.espresso)
                 .into(holder.vImg);
         holder.uriString = cursor.getString(3);
         holder.vCategory = cursor.getString(4);

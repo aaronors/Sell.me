@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,12 +16,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recView;
     private Recycler_Adapter recAdapter;
     private RecyclerView.LayoutManager recManager;
     DB_Adapter db;
+    int picNum = 0;
 
 /*        switch(item.getItemId()){
 
@@ -65,13 +75,6 @@ public class MainActivity extends AppCompatActivity {
             sharedPreferences.edit().putBoolean("first",false).commit();
         }
 
-        //db.dbDelete();
-
-        //long lng = db.add("bike1","50");
-
-        //System.out.println(lng);
-
-        // add to DB here
 
         Cursor cursor = db.getAll();
 
@@ -80,7 +83,15 @@ public class MainActivity extends AppCompatActivity {
         recView.setLayoutManager(recManager);
         recView.setAdapter(recAdapter);
 
+        // floating action button stuff
 
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.picFab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gotoPrompt();
+            }
+        });
 
     }
 
@@ -129,10 +140,46 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intentData) {
+        super.onActivityResult(requestCode, resultCode, intentData);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+
+            Bitmap photo = (Bitmap) intentData.getExtras().get("data");
+            String filename = getFilesDir() + "/" + "pic" + String.valueOf(picNum++) +".png";
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(filename);
+                photo.compress(Bitmap.CompressFormat.PNG,100,fos);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } finally{
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
+
+            // go to prompt activity
+            Intent intent = new Intent(this,PromptActivity.class);
+            intent.putExtra("img",filename);
+
+            startActivity(intent);
+
+
+
+
+        }
+    }
+
     private void gotoPrompt(){
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, 1);
+        Intent promptIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (promptIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(promptIntent, 1);
         }
     }
 }

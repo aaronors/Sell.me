@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:theme="@style/AppTheme"
+        android:background="@color/bkgGrey"
         android:id="@+id/rec_view" />
 
     <android.support.design.widget.FloatingActionButton
@@ -20,6 +21,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="28dp"
+        android:id="@+id/picFab"
         android:src="@mipmap/ic_camera"
         app2:backgroundTint="@android:color/holo_red_light"
         app2:elevation="6dp"
