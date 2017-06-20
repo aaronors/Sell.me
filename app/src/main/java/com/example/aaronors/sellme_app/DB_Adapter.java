@@ -10,69 +10,37 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.HashMap;
 
 /**
- * Created by aaronors.
+ *DB_Adapter is used to modify/access db.
  */
 
 public class DB_Adapter {
-
     Context c;
     SQLiteDatabase db;
     DB_Helper dbHelper;
 
-
-
-
     public DB_Adapter(Context c){
         this.c = c;
         dbHelper = new DB_Helper(this.c);
-
     }
 
-
-
-
     public DB_Adapter dbOpen(){
-        try
-        {
-            db=dbHelper.getWritableDatabase();
-        }catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
+        db=dbHelper.getWritableDatabase();
         return this;
     }
 
-    public void dbClose(){
-        try
-        {
-            dbHelper.close();
-        }catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-    }
+    public void dbClose(){ dbHelper.close(); }
 
     public void dbDelete(){
         db.execSQL(DB_Contract.DELETE_TABLE);
     }
 
-
     public long add(String name, String price, String image, String category){
-        try{
-            ContentValues cv = new ContentValues();
-            cv.put(DB_Contract.dbEntry.COL_NAME, name);
-            cv.put(DB_Contract.dbEntry.COL_PRICE, price);
-            cv.put(DB_Contract.dbEntry.COL_IMG, image);
-            cv.put(DB_Contract.dbEntry.COL_CATEGORY, category);
-            return db.insert(DB_Contract.dbEntry.TABLE_NAME,DB_Contract.dbEntry._ID,cv);
-        }catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return 0;
-
+        ContentValues cv = new ContentValues();
+        cv.put(DB_Contract.dbEntry.COL_NAME, name);
+        cv.put(DB_Contract.dbEntry.COL_PRICE, price);
+        cv.put(DB_Contract.dbEntry.COL_IMG, image);
+        cv.put(DB_Contract.dbEntry.COL_CATEGORY, category);
+        return db.insert(DB_Contract.dbEntry.TABLE_NAME,DB_Contract.dbEntry._ID,cv);
     }
 
     public Cursor getAll(){
@@ -101,26 +69,3 @@ public class DB_Adapter {
 
 }
 
-
-
-/*        switch(item.getItemId()){
-
-                case R.id.mElectronics: 1
-
-                case R.id.mAppliances: 2
-
-                case R.id.mMusic: 3
-
-                case R.id.mMobile: 4
-
-                case R.id.mOutdoor: 5
-                }*/
-
-
-/****
- *
- *
- *  DB_Adapter is used to interface the database?
- *
- *
- * ****/

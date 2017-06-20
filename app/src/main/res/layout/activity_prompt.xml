@@ -7,15 +7,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.5"
-        android:background="#000000"
-        >
+        android:background="#000000">
         <ImageView
             android:id="@+id/itemPic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/bike1"
-            android:adjustViewBounds="true"
-            />
+            android:adjustViewBounds="true"/>
 
     </RelativeLayout>
 
@@ -25,43 +23,53 @@
         android:layout_weight="0.5"
         android:background="@color/bkgGrey">
 
-
-        <TextView
-            android:id="@+id/textView5"
+        <Button
+            android:id="@+id/sellBtn"
+            android:onClick="postAd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/editText6"
-            android:layout_alignBottom="@+id/editText6"
-            android:layout_alignParentStart="true"
-            android:text="Item Name" />
+            android:layout_below="@+id/editPrice"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="31dp"
+            android:text="Submit"/>
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/textName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/editText5"
-            android:layout_alignBottom="@+id/editText5"
+            android:layout_alignBaseline="@+id/editName"
+            android:layout_alignBottom="@+id/editName"
+            android:layout_alignStart="@+id/textPrice"
+            android:text="Item Name"/>
+
+        <TextView
+            android:id="@+id/textPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/editPrice"
+            android:layout_alignBottom="@+id/editPrice"
             android:layout_alignParentStart="true"
-            android:text="Price" />
+            android:layout_marginStart="37dp"
+            android:text="Price"/>
 
         <EditText
-            android:id="@+id/editText6"
+            android:id="@+id/editName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"/>
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/editPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_below="@+id/editText6"
+            android:layout_below="@+id/editName"
             android:layout_marginTop="33dp"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"/>
     </RelativeLayout>
 
 </LinearLayout>

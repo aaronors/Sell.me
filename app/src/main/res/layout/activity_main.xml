@@ -6,14 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:theme="@style/AppTheme"
         android:background="@color/bkgGrey"
-        android:id="@+id/rec_view" />
+        android:id="@+id/rec_view"/>
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
@@ -26,7 +24,7 @@
         app2:backgroundTint="@android:color/holo_red_light"
         app2:elevation="6dp"
         app2:rippleColor="@color/cardview_light_background"
-        app:fabSize="normal" />
+        app:fabSize="normal"/>
 
 </RelativeLayout>
 

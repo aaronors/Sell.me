@@ -5,14 +5,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Created by aaronors.
+ * Helper class to manage db.
  */
 
 public class DB_Helper extends SQLiteOpenHelper {
-
     public static final int DB_VER = 1;
     public static final String DB_NAME = "sol.db";
-
 
     public DB_Helper(Context context) {
         super(context, DB_NAME, null, DB_VER);
@@ -34,12 +32,3 @@ public class DB_Helper extends SQLiteOpenHelper {
     }
 }
 
-
-/****
- *
- *
- *  DB_Helper is used to create the database only?
- *
- *
- *  creates database each time? change so that it creates it once
- * ****/
