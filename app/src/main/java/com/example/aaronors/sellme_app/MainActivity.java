@@ -1,19 +1,38 @@
 package com.example.aaronors.sellme_app;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recView;
-    private RecyclerView.Adapter recAdapter;
+    private Recycler_Adapter recAdapter;
     private RecyclerView.LayoutManager recManager;
+    DB_Adapter db;
 
+/*        switch(item.getItemId()){
 
+                case R.id.mElectronics: 1
+
+                case R.id.mAppliances: 2
+
+                case R.id.mMusic: 3
+
+                case R.id.mMobile: 4
+
+                case R.id.mOutdoor: 5
+                }*/
 
 
     @Override
@@ -27,20 +46,21 @@ public class MainActivity extends AppCompatActivity {
 
         // create cursor from database
 
-        DB_Adapter db = new DB_Adapter(this);
+        db = new DB_Adapter(this);
 
         db.dbOpen();
         if(sharedPreferences.getBoolean("first",true)){
 
-            db.add("bike1","8560");
-            db.add("bike2","6");
-            db.add("bike3","58754");
-            db.add("bike4","70");
-            db.add("bike5","54");
-            db.add("bike6","7648");
-            db.add("bike7","576");
-            db.add("bike8","570");
-            db.add("bike9","58654");
+            db.add("bike1","$8560","android.resource://com.example.aaronors.sellme_app/drawable/bike1","5");
+            db.add("bike2","$453","android.resource://com.example.aaronors.sellme_app/drawable/bike2","5");
+            db.add("espresso","$453","android.resource://com.example.aaronors.sellme_app/drawable/espresso","2");
+            db.add("galaxy","$45","android.resource://com.example.aaronors.sellme_app/drawable/galaxy","4");
+            db.add("guitar","$4654","android.resource://com.example.aaronors.sellme_app/drawable/guitar","3");
+            db.add("lawnmower","$4654","android.resource://com.example.aaronors.sellme_app/drawable/lawnmower","2");
+            db.add("lenovo","$4654","android.resource://com.example.aaronors.sellme_app/drawable/lenovo","1");
+            db.add("macbook","$4654","android.resource://com.example.aaronors.sellme_app/drawable/macbook","1");
+            db.add("ps3","$4654","android.resource://com.example.aaronors.sellme_app/drawable/ps3","1");
+            db.add("xbox","$4654","android.resource://com.example.aaronors.sellme_app/drawable/xbox","1");
 
             sharedPreferences.edit().putBoolean("first",false).commit();
         }
@@ -55,15 +75,65 @@ public class MainActivity extends AppCompatActivity {
 
         Cursor cursor = db.getAll();
 
-        recAdapter = new Recycler_Adapter(cursor);
-
-
+        recAdapter = new Recycler_Adapter(this,cursor);
         recManager = new GridLayoutManager(this,2);
         recView.setLayoutManager(recManager);
         recView.setAdapter(recAdapter);
 
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_categories, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        Cursor cursor = null;
+
+        switch(item.getItemId()){
+            case R.id.mAll:
+                cursor = db.getAll();
+                break;
+            case R.id.mElectronics:
+                cursor = db.getElectronics();
+                break;
+            case R.id.mAppliances:
+                cursor = db.getAppliances();
+                break;
+            case R.id.mMusic:
+                cursor = db.getMusic();
+                break;
+            case R.id.mMobile:
+                cursor = db.getMobile();
+                break;
+            case R.id.mOutdoor:
+                cursor = db.getOutdoor();
+                break;
+        }
+
+        recAdapter = new Recycler_Adapter(this,cursor);
+        recManager = new GridLayoutManager(this,2);
+        recView.setLayoutManager(recManager);
+        recView.setAdapter(recAdapter);
+/*        cursor.moveToFirst();
+        recAdapter.swapCursor(cursor);
+        recView.setAdapter(recAdapter);*/
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void gotoPrompt(){
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, 1);
+        }
     }
 }
 

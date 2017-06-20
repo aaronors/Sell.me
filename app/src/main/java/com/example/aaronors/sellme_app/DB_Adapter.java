@@ -7,6 +7,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.HashMap;
+
 /**
  * Created by aaronors.
  */
@@ -18,10 +20,15 @@ public class DB_Adapter {
     DB_Helper dbHelper;
 
 
+
+
     public DB_Adapter(Context c){
         this.c = c;
         dbHelper = new DB_Helper(this.c);
+
     }
+
+
 
 
     public DB_Adapter dbOpen(){
@@ -50,18 +57,14 @@ public class DB_Adapter {
         db.execSQL(DB_Contract.DELETE_TABLE);
     }
 
-    public Cursor getAll(){
 
-        String[] header= {DB_Contract.dbEntry._ID,DB_Contract.dbEntry.COL_NAME,DB_Contract.dbEntry.COL_PRICE};
-
-        return db.query(DB_Contract.dbEntry.TABLE_NAME,header,null,null,null,null,null);
-    }
-
-    public long add(String name, String price){
+    public long add(String name, String price, String image, String category){
         try{
             ContentValues cv = new ContentValues();
             cv.put(DB_Contract.dbEntry.COL_NAME, name);
             cv.put(DB_Contract.dbEntry.COL_PRICE, price);
+            cv.put(DB_Contract.dbEntry.COL_IMG, image);
+            cv.put(DB_Contract.dbEntry.COL_CATEGORY, category);
             return db.insert(DB_Contract.dbEntry.TABLE_NAME,DB_Contract.dbEntry._ID,cv);
         }catch (SQLException e)
         {
@@ -72,10 +75,46 @@ public class DB_Adapter {
 
     }
 
+    public Cursor getAll(){
+        return db.rawQuery(DB_Contract.QUERY_ALL,null);
+    }
+
+    public Cursor getElectronics(){
+        return db.rawQuery(DB_Contract.QUERY_ELECTRONICS,null);
+    }
+
+    public Cursor getAppliances(){
+        return db.rawQuery(DB_Contract.QUERY_APPLIANCES,null);
+    }
+
+    public Cursor getMusic(){
+        return db.rawQuery(DB_Contract.QUERY_MUSIC,null);
+    }
+
+    public Cursor getMobile(){
+        return db.rawQuery(DB_Contract.QUERY_MOBILE,null);
+    }
+
+    public Cursor getOutdoor(){
+        return db.rawQuery(DB_Contract.QUERY_OUTDOOR,null);
+    }
+
 }
 
 
 
+/*        switch(item.getItemId()){
+
+                case R.id.mElectronics: 1
+
+                case R.id.mAppliances: 2
+
+                case R.id.mMusic: 3
+
+                case R.id.mMobile: 4
+
+                case R.id.mOutdoor: 5
+                }*/
 
 
 /****

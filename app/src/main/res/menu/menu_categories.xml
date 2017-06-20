@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mAll"
+        android:orderInCategory="1"
+        android:title="All"/>
+    <item
+        android:id="@+id/mElectronics"
+        android:orderInCategory="2"
+        android:title="Electronics"/>
+
+    <item
+        android:id="@+id/mAppliances"
+        android:orderInCategory="3"
+        android:title="Tools and Appliances"/>
+
+    <item
+        android:id="@+id/mMusic"
+        android:orderInCategory="4"
+        android:title="Musical Instruments"/>
+
+    <item
+        android:id="@+id/mMobile"
+        android:orderInCategory="5"
+        android:title="Mobile Devices and Accessories"/>
+
+    <item
+        android:id="@+id/mOutdoor"
+        android:orderInCategory="6"
+        android:title="Outdoor and Sporting Goods"/>
+</menu>
+
+
+<!--
+    case R.id.mAll:
+
+    case R.id.mElectronics:
+
+    case R.id.mAppliances:
+
+    case R.id.mMusic:
+
+    case R.id.mMobile:
+
+    case R.id.mOutdoor:-->
