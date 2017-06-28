@@ -5,19 +5,25 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by aaronors.
@@ -86,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         if(getIntent().getExtras() != null && getIntent().getExtras().getString("pName") != null) {
-
+            Log.i("Tip!","onResume with ");
             String itemName = getIntent().getExtras().getString("pName");
             String itemPrice = getIntent().getExtras().getString("pPrice");
             String itemImage = getIntent().getExtras().getString("pImg");
@@ -141,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
+        Log.i("Tip!","menu selected");
+
         recAdapter = new Recycler_Adapter(this,cursor);
         recView.setAdapter(recAdapter);
 
@@ -156,8 +164,44 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, intentData);
         if (requestCode == 1 && resultCode == RESULT_OK) {
 
+            // - create temp file
             Bitmap photo = (Bitmap) intentData.getExtras().get("data");
-            String filename = getFilesDir() + "/" + "pic" + String.valueOf(new Integer(picNum++)) +".png";
+            String timeFormat = "MMddHHmmss";
+            String timeStamp = new SimpleDateFormat(timeFormat).format(new Date());
+            File dirPath = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+            File image = null;
+            try {
+                image = File.createTempFile("pic"+timeStamp,".png",dirPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(image.getAbsolutePath());
+                photo.compress(Bitmap.CompressFormat.PNG,100,fos);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } finally{
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
+            Intent intent = new Intent(this,PromptActivity.class);
+            intent.putExtra("img",image.getAbsolutePath());
+
+            startActivity(intent);
+
+
+/*            Bitmap photo = (Bitmap) intentData.getExtras().get("data");
+            String filename = getExternalFilesDir(null) + "/" + "pic" + String.valueOf(new Integer(picNum++)) +".png";
+            Log.i("Tip!",filename);
             FileOutputStream fos = null;
             try {
                 fos = new FileOutputStream(filename);
@@ -175,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this,PromptActivity.class);
             intent.putExtra("img",filename);
 
-            startActivity(intent);
+            startActivity(intent);*/
         }
     }
 

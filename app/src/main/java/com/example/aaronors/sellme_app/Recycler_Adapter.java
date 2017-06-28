@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.util.Objects;
 
 import static android.R.attr.fragment;
 import static android.support.v4.content.ContextCompat.startActivity;
@@ -98,12 +101,25 @@ public class Recycler_Adapter extends CursorRecyclerAdapter<Recycler_Adapter.Vie
      */
     @Override
     public void onBindViewHolderCursor(ViewHolder holder, Cursor cursor) {
+        Log.i("Tip!","inside on bind");
         holder.vName.setText(cursor.getString(1));
         holder.vPrice.setText(cursor.getString(2));
-        Glide.with(rContext)
-                .load(Uri.parse(cursor.getString(3)))
-                .placeholder(R.drawable.espresso)
-                .into(holder.vImg);
+
+        String uriStr = cursor.getString(3);
+
+        if(Objects.equals(uriStr.substring(uriStr.length()-4),new String(".png"))){
+            Glide.with(rContext)
+                    .load(new File(Uri.parse(cursor.getString(3)).getPath()))
+                    .placeholder(R.drawable.espresso)
+                    .into(holder.vImg);
+        }
+        else{
+            Glide.with(rContext)
+                    .load(Uri.parse(cursor.getString(3)))
+                    .placeholder(R.drawable.espresso)
+                    .into(holder.vImg);
+        }
+
         holder.uriString = cursor.getString(3);
         holder.vCategory = cursor.getString(4);
     }
